@@ -16,11 +16,26 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <ul>
-                        {% for t in text2 %}
-                        <li>{{t}}</li>
+                    {{ m }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <ol>
+                        {% for t in text3 %}
+                        <li>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    {{ t.0 }}
+                                </div>
+                                <div class="col-xs-6">
+                                    <button class="btn btn-danger">aa</button>
+                                    <button class="btn btn-danger">bb</button>
+                                </div>
+                            </div>
+                        </li>
                         {% endfor %}
-                    </ul>
+                    </ol>
                 </div>
             </div>
         </div>
