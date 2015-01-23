@@ -1,5 +1,4 @@
-from django.conf.urls import patterns, include, url
-from django.contrib import admin
+from django.conf.urls import patterns, url
 
 urlpatterns = patterns('',
     # Examples:
@@ -7,6 +6,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', 'quiz.views.home', name='home'),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^quiz/', include('quiz.urls', namespace="quiz")),
+    #url(r'^quiz/$', 'quiz.views.search', name='search'),
+
+    # ... the rest of your URLconf goes here ...
 )
