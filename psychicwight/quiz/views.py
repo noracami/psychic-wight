@@ -2,14 +2,12 @@ from django.shortcuts import render
 import os
 import csv
 
-# Create your views here.
-def home(request):
-    h = "%s%s%s" % ("○○部○○署", 104, "年度○○裝備檢查保養常識測驗")
-    module_dir = os.path.join(os.path.dirname(__file__), '../static/car1.csv')
+def parse_csv(source_dir):
+    module_dir = os.path.join(os.path.dirname(__file__), source_dir)
     with open(module_dir, newline='') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=' ', quotechar=',')
         i = 1
-        text3 = []
+        text = []
         for row in spamreader:
             clist = []
             for s in row:
@@ -19,10 +17,17 @@ def home(request):
                     else:
                         clist += [c]
             i += 1
-            text3 += [clist]
+            text += [clist]
+
+    return text
+
+# Create your views here.
+def home(request):
+    h = "%s%s%s" % ("○○部○○署", 104, "年度○○裝備檢查保養常識測驗")
+    text3 = parse_csv('../static/car1.csv')
     return render(request, 'home.html', {
         "header": h,
-        "m": module_dir,
+        #"m": module_dir,
         "text3": text3,
         })
     text = {

@@ -16,26 +16,61 @@
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    {{ m }}
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-5 text-right">
+                    <button id="lastquestion" class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="col-xs-2 text-center">
+                    <button id="button1" disabled class="btn btn-danger">1/20</button>
+                </div>
+                <div class="col-xs-5 ">
+                    <button class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    </button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12">
-                    <ol>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul class="list-group">
                         {% for t in text3 %}
-                        <li>
+                        <li id="question{{ forloop.counter }}" class="list-group-item" style="background-color: #e6e6e6;">
                             <div class="row">
-                                <div class="col-xs-6">
+                                <div class="col-xs-1 text-center">
+                                    {{ forloop.counter }}
+                                </div>
+                                <div class="col-xs-4">
                                     {{ t.0 }}
                                 </div>
-                                <div class="col-xs-6">
-                                    <button class="btn btn-danger">aa</button>
-                                    <button class="btn btn-danger">bb</button>
+                                <div class="col-xs-3">
+                                    <button class="btn btn-default active disabled">正確</button>
+                                    <button class="btn btn-default disabled">錯誤</button>
+                                </div>
+                                
+                                <div class="col-xs-1">
+                                    <span style="color:#419641" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    <span style="color:#c12e2a" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </div>
                             </div>
                         </li>
+                        {% if t.1 %}
+                        <div class="row">
+                            <div class="col-xs-offset-1 col-xs-5 alert alert-danger">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"> {{ t.1 }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
                         {% endfor %}
-                    </ol>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -43,3 +78,21 @@
 
 </div>
 {% endblock %}
+{% block js %}
+        <script type="text/javascript">
+            $("#lastquestion").click(function(){
+                var digis = $("#button1").text().split('/');
+                var digi = parseInt(digis[0]);
+                $("#question"+digi.toString()).css("background-color","#e6e6e6");
+                digi++;
+                $("#question"+digi.toString()).css("background-color","yellow");
+                
+                digis = digi.toString() + "/20";
+                $("#button1").text(digis);
+                //var n = $("#button1");
+                //$(n.text).css("background-color","yellow");
+                //n.text = 2;
+            });
+        </script>
+{% endblock %}
+
