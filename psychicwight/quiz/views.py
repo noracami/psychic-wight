@@ -25,10 +25,12 @@ def parse_csv(source_dir):
 def home(request):
     h = "%s%s%s" % ("○○部○○署", 104, "年度○○裝備檢查保養常識測驗")
     text3 = parse_csv('../static/car1.csv')
+    l_t = len(text3)
     return render(request, 'home.html', {
         "header": h,
         #"m": module_dir,
         "text3": text3,
+        "l_t": l_t,
         })
     text = {
         "t1": "【車輛裝備】保養常識練習題庫（選擇50題）",
