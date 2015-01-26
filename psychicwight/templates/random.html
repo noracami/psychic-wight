@@ -2,32 +2,7 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xs-8 col-xs-offset-2">
-            <div class="row">
-                <div class="col-xs-12 text-center">
-                    <h1>{{ header }}</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <hr>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <hr>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        {% for t in text2 %}
-        {% if forloop.last %}
-        <div class="col-sm-offset-2 col-sm-8"><a href="/quiz/{{ t.section }}"><button class="btn btn-default form-control">{{ t.name }}</button></a></div>
-        {% else %}
-        <div class="{% cycle 'col-sm-offset-1' '' %} col-sm-5"><a href="/quiz/{{ t.section }}"><button class="btn btn-default form-control">{{ t.name }}</button></a></div>
-        {% endif %}
-        {% endfor %}
+        random
     </div>
 
 </div>
@@ -43,12 +18,24 @@
                 $(this).addClass("active");
                 $(this).parent().children(":button").addClass("disabled");
             });
-            $(".ans-true").click(function(){
-                $(this).parent().parent().children(":first-child").children(".mychoice").text("O");
+            $(".ans-A").click(function(){
+                $(this).parent().parent().children(":first-child").children(".mychoice").text("A");
             });
-            $(".ans-false").click(function(){
-                $(this).parent().parent().children(":first-child").children(".mychoice").text("X");
-            });            
+            $(".ans-B").click(function(){
+                $(this).parent().parent().children(":first-child").children(".mychoice").text("B");
+            });
+            $(".ans-C").click(function(){
+                $(this).parent().parent().children(":first-child").children(".mychoice").text("C");
+            });
+            $(".ans-D").click(function(){
+                $(this).parent().parent().children(":first-child").children(".mychoice").text("D");
+            });
+            $(".ans-E").click(function(){
+                $(this).parent().parent().children(":first-child").children(".mychoice").text("E");
+            });
+            $(".ans-F").click(function(){
+                $(this).parent().parent().children(":first-child").children(".mychoice").text("F");
+            });
             $("#nextquestion").click(function(){
                 var digis = $("#button1").text().split('/');
                 var digi = parseInt(digis[0]);
