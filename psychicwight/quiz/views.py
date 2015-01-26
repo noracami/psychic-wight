@@ -48,3 +48,43 @@ def home(request):
              "【通訊裝備】保養常識練習題庫（選擇50題）", "【通訊裝備】保養常識練習題庫（是非50題）",
              "【防彈裝備】保養常識練習題庫（選擇20題）", "【防彈裝備】保養常識練習題庫（是非20題）",
              "模擬測驗(隨機20題)",]
+
+
+def maintenanceknowledge(request, section="", number=0):
+    ''' description '''
+    h = "%s%s%s" % ("○○部○○署", 104, "年度○○裝備檢查保養常識測驗")
+    my_dir = "%s%s%s%s" % ('../static/', section, number, '.csv')
+    text = parse_csv(my_dir)
+    section_choice = {
+        "car1": "【車輛裝備】保養常識練習題庫（選擇50題）",
+        "car2": "【車輛裝備】保養常識練習題庫（是非50題）",
+        "weapon1": "【武器裝備】保養常識練習題庫（選擇50題）",
+        "weapon2": "【武器裝備】保養常識練習題庫（是非50題）",
+        "communication1": "【通訊裝備】保養常識練習題庫（選擇50題）",
+        "communication2": "【通訊裝備】保養常識練習題庫（是非50題）",
+        "bulletproof1": "【防彈裝備】保養常識練習題庫（選擇20題）",
+        "bulletproof2": "【防彈裝備】保養常識練習題庫（是非20題）",
+        "random": "模擬測驗(隨機20題)",
+    }
+    my_choice
+
+    if number == '2':
+        return render(request, 'multiple_choice_question.html', {
+            "header": h,
+            "t": section,
+            "number": number,
+
+            "m": my_dir,
+            "text3": text,
+            "l_t": len(text),
+            })
+    else:
+        return render(request, 'home.html', {
+            "header": h,
+            "t": section,
+            "number": number,
+
+            "m": my_dir,
+            "text3": text,
+            "l_t": len(text),
+            })
