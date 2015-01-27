@@ -21,11 +21,20 @@ def parse_csv(source_dir):
 
     return text
 
+
+def filltruefalse(text):
+    # [[1,2,3], [4,5,6], [1,2]]
+    for q in text:
+        if len(q) == 1:
+            q[1:] = ["", "true_or_false"]
+        elif len(q) == 2:
+            q[2:] = ["true_or_false"]
+
+    return text
+
 # Create your views here.
 def home(request):
     h = "%s%s%s" % ("○○部○○署", 104, "年度○○裝備檢查保養常識測驗")
-    #text3 = parse_csv('../static/car1.csv')
-    #l_t = len(text3)
     text2 = [{"name": "【車輛裝備】保養常識練習題庫（是非50題）", "section": 'car/1',},
              {"name": "【車輛裝備】保養常識練習題庫（選擇50題）", "section": 'car/2',},
              {"name": "【武器裝備】保養常識練習題庫（是非50題）", "section": 'weapon/1',},
@@ -66,8 +75,15 @@ def maintenanceknowledge(request, section="", number=0, showall=False):
     #my_choice
 
     if section == 'random':
+        text = filltruefalse(text)
+        from random import shuffle
+        shuffle(text)
         return render(request, 'random.html', {
             "showall": showall,
+            "header": h,
+            "text": text[:20],
+            "l_t": 20,
+            "true_or_false": "true_or_false",
             })
 
     elif number == '1':
@@ -78,7 +94,7 @@ def maintenanceknowledge(request, section="", number=0, showall=False):
             "number": number,
 
             "m": my_dir,
-            "text3": text,
+            "text": text,
             "l_t": len(text),
             })
     elif number == '2':
@@ -89,7 +105,7 @@ def maintenanceknowledge(request, section="", number=0, showall=False):
             "number": number,
 
             "m": my_dir,
-            "text3": text,
+            "text": text,
             "l_t": len(text),
             })
     else:

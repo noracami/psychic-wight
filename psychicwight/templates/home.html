@@ -23,9 +23,9 @@
     <div class="row">
         {% for t in text2 %}
         {% if forloop.last %}
-        <div class="col-sm-offset-2 col-sm-8"><a href="/quiz/{{ t.section }}"><button class="btn btn-default form-control">{{ t.name }}</button></a></div>
+        <div class="col-sm-offset-2 col-sm-8"><a target="_blank" href="/quiz/{{ t.section }}"><button class="btn btn-default form-control">{{ t.name }}</button></a></div>
         {% else %}
-        <div class="{% cycle 'col-sm-offset-1' '' %} col-sm-5"><a href="/quiz/{{ t.section }}"><button class="btn btn-default form-control">{{ t.name }}</button></a></div>
+        <div class="{% cycle 'col-sm-offset-1' '' %} col-sm-5"><a target="_blank" href="/quiz/{{ t.section }}"><button class="btn btn-default form-control">{{ t.name }}</button></a></div>
         {% endif %}
         {% endfor %}
     </div>

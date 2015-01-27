@@ -2,39 +2,239 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        random
+        <div class="col-xs-8 col-xs-offset-2">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <h1>{{ header }}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-5 text-right">
+                    <button id="lastquestion" class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="col-xs-2 text-center">
+                    <button id="button1" disabled class="btn btn-warning">1/{{l_t}}</button>
+                </div>
+                <div class="col-xs-2 ">
+                    <button id="nextquestion" class="btn btn-default">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="col-xs-2 ">
+                    <button id="showallquestion" class="btn btn-default">
+                        <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> 顯示所有問題
+                    </button>
+                    <button id="folderallquestion" class="btn btn-default">
+                        <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> 逐一顯示問題
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <hr>
+                </div>
+            </div>
+            {% for t in text %}
+            {% if t.2 == true_or_false %}
+            <div id="question{{ forloop.counter }}" class="row question" style="background-color: #e6e6e6;">
+                <div class="col-xs-3 text-right">
+                    <span style="color:#419641" class="yes glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    <span style="color:#c12e2a" class="no glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    (<container class="mychoice btn btn-link disabled">&nbsp;</container>)&nbsp;{{ forloop.counter }}
+                </div>
+                <div class="col-xs-4" style="top:calc(17px - 10px);">{{ t.0 }}</div>
+                <div class="col-xs-5" style="top:calc(17px - 10px);">
+                    <input type="hidden" id="ans-{{forloop.counter}}" value="{{ t.1 }}">
+                    <button class="answer-t ans-A-t btn btn-primary">A</button>&nbsp;O
+                    <br><span></span><br>
+                    <button class="answer-t ans-B-t btn btn-primary">B</button>&nbsp;X
+                    <br><span></span><br>
+                </div>
+                {% if t.1 %}
+                <div class="additionalsays col-xs-offset-3 col-xs-6 text-danger">{{ t.1 }}</div>
+                {% endif %}
+                <div class="col-xs-12">
+                    <hr style="border-top-color:#333">
+                </div>
+            </div>
+            {% else %}
+            <div id="question{{ forloop.counter }}" class="row question" style="background-color: #e6e6e6;">
+                <div class="col-xs-3 text-right">
+                    <span style="color:#419641" class="fillme"></span>
+                    <span style="color:#419641" class="yes glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    <span style="color:#c12e2a" class="no glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    (<container class="mychoice btn btn-link disabled">&nbsp;</container>)&nbsp;{{ forloop.counter }}
+                </div>
+                <div class="col-xs-4" style="top:calc(17px - 10px);">{{ t.0 }}</div>
+                <div class="answers col-xs-5" style="top:calc(17px - 10px);">
+                    <span><button style="margin-bottom: 5px;margin-right:10px;" class="answer ans-A btn btn-primary">A</button>&nbsp;{{ t.1 }}<br></span>
+                    <span><button style="margin-bottom: 5px;margin-right:10px;" class="answer ans-B btn btn-primary">B</button>&nbsp;{{ t.2 }}<br></span>
+                    {% if t.3 %}<span><input type="hidden" value="{{t.3}}"><button style="margin-bottom: 5px;margin-right:10px;" class="answer ans-C btn btn-primary">C</button>&nbsp;{{ t.3 }}<br></span>{% endif %}
+                    {% if t.4 %}<span><input type="hidden" value="{{t.4}}"><button style="margin-bottom: 5px;margin-right:10px;" class="answer ans-D btn btn-primary">D</button>&nbsp;{{ t.4 }}<br></span>{% endif %}
+                    {% if t.5 %}<span><input type="hidden" value="{{t.5}}"><button style="margin-bottom: 5px;margin-right:10px;" class="answer ans-E btn btn-primary">E</button>&nbsp;{{ t.5 }}<br></span>{% endif %}
+                    {% if t.6 %}<span><input type="hidden" value="{{t.6}}"><button style="margin-bottom: 5px;margin-right:10px;" class="answer ans-F btn btn-primary">F</button>&nbsp;{{ t.6 }}<br></span>{% endif %}
+                    {% if t.7 %}<span><input type="hidden" value="{{t.7}}"><button style="margin-bottom: 5px;margin-right:10px;" class="answer ans-G btn btn-primary">G</button>&nbsp;{{ t.7 }}<br></span>{% endif %}
+                </div>
+                <div class="col-xs-12">
+                    <hr style="border-top-color:#333">
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
 
 </div>
 {% endblock %}
 {% block js %}
         <script type="text/javascript">
+            {% if showall %}
+            $(document).ready(function(){
+                $("#lastquestion").hide();
+                $("#nextquestion").hide();
+                $("#question1").show();
+                $(".yes").hide();
+                $(".no").hide();
+                $(".additionalsays").hide();
+                $("#showallquestion").hide();
+                $(".answers span:last-child").hide();
+                $(".fillme").hide();
+            });
+            {% else %}
             $(document).ready(function(){
                 $("#lastquestion").hide();
                 $(".question").hide();
                 $("#question1").show();
+                $(".yes").hide();
+                $(".no").hide();
+                $(".additionalsays").hide();
+                $("#folderallquestion").hide();
+                $(".answers span:last-child").hide();
+                $(".fillme").hide();
             });
-            $(".answer").click(function(){
+            {% endif %}
+            $("#showallquestion").click(function(){
+                var myurl = $(location).attr('href') + 'a';
+                window.location.replace(myurl);
+            });
+            $("#folderallquestion").click(function(){
+                var myurl = $(location).attr('href') + '..';
+                window.location.replace(myurl);
+            });
+
+            /// for true or false
+            $(".answer-t").click(function(){
+                var answer = $(this).parent().children(":first-child").val().length;
+                if (answer>0) $(this).parent().parent().children(".additionalsays").show();
                 $(this).addClass("active");
                 $(this).parent().children(":button").addClass("disabled");
+                $(this).parent().children(":button").css({"opacity": "1"});
+                $(this).css({"opacity": "0.65"});
             });
+            $(".ans-A-t").click(function(){
+                $(this).parent().parent().children(":first-child").children(".mychoice").text("O");
+                var answer = $(this).parent().children(":first-child").val().length;
+                if (answer>0) $(this).parent().parent().children(":first-child").children(".no").show();
+                else $(this).parent().parent().children(":first-child").children(".yes").show();
+            });
+            $(".ans-B-t").click(function(){
+                $(this).parent().parent().children(":first-child").children(".mychoice").text("X");
+                var answer = $(this).parent().children(":first-child").val().length;
+                if (answer>0) $(this).parent().parent().children(":first-child").children(".yes").show();
+                else $(this).parent().parent().children(":first-child").children(".no").show();
+            });
+
+            ///
+
+            $(".answer").click(function(){
+                $(this).addClass("active");
+                $(this).parent().parent().children().children(":button").addClass("disabled");
+                $(this).parent().parent().children().children(":button").css({"opacity": "1"});
+                $(this).css({"opacity": "0.65"});
+            });
+            //
+            // O X
+            function ntoa(n){
+                var a = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+                return a[parseInt(n)-1];
+            }
+            //
             $(".ans-A").click(function(){
-                $(this).parent().parent().children(":first-child").children(".mychoice").text("A");
+                $(this).parent().parent().parent().children(":first-child").children(".mychoice").text("A");
+                var theanswer = $(this).parent().parent().children("span:last-child").children(":first-child").val()
+                if (theanswer == '1') $(this).parent().parent().parent().children(":first-child").children(".yes").show();
+                else {
+                    $(this).parent().parent().parent().children(":first-child").children(".no").show();
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").text(ntoa(theanswer));
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").show();
+                }
             });
             $(".ans-B").click(function(){
-                $(this).parent().parent().children(":first-child").children(".mychoice").text("B");
+                $(this).parent().parent().parent().children(":first-child").children(".mychoice").text("B");
+                var theanswer = $(this).parent().parent().children("span:last-child").children(":first-child").val()
+                if (theanswer == '2') $(this).parent().parent().parent().children(":first-child").children(".yes").show();
+                else {
+                    $(this).parent().parent().parent().children(":first-child").children(".no").show();
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").text(ntoa(theanswer));
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").show();
+                }
             });
             $(".ans-C").click(function(){
-                $(this).parent().parent().children(":first-child").children(".mychoice").text("C");
+                $(this).parent().parent().parent().children(":first-child").children(".mychoice").text("C");
+                var theanswer = $(this).parent().parent().children("span:last-child").children(":first-child").val()
+                if (theanswer == '3') $(this).parent().parent().parent().children(":first-child").children(".yes").show();
+                else {
+                    $(this).parent().parent().parent().children(":first-child").children(".no").show();
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").text(ntoa(theanswer));
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").show();
+                }
             });
             $(".ans-D").click(function(){
-                $(this).parent().parent().children(":first-child").children(".mychoice").text("D");
+                $(this).parent().parent().parent().children(":first-child").children(".mychoice").text("D");
+                var theanswer = $(this).parent().parent().children("span:last-child").children(":first-child").val()
+                if (theanswer == '4') $(this).parent().parent().parent().children(":first-child").children(".yes").show();
+                else {
+                    $(this).parent().parent().parent().children(":first-child").children(".no").show();
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").text(ntoa(theanswer));
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").show();
+                }
             });
             $(".ans-E").click(function(){
-                $(this).parent().parent().children(":first-child").children(".mychoice").text("E");
+                $(this).parent().parent().parent().children(":first-child").children(".mychoice").text("E");
+                var theanswer = $(this).parent().parent().children("span:last-child").children(":first-child").val()
+                if (theanswer == '5') $(this).parent().parent().parent().children(":first-child").children(".yes").show();
+                else {
+                    $(this).parent().parent().parent().children(":first-child").children(".no").show();
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").text(ntoa(theanswer));
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").show();
+                }
             });
             $(".ans-F").click(function(){
-                $(this).parent().parent().children(":first-child").children(".mychoice").text("F");
+                $(this).parent().parent().parent().children(":first-child").children(".mychoice").text("F");
+                var theanswer = $(this).parent().parent().children("span:last-child").children(":first-child").val()
+                if (theanswer == '6') $(this).parent().parent().parent().children(":first-child").children(".yes").show();
+                else {
+                    $(this).parent().parent().parent().children(":first-child").children(".no").show();
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").text(ntoa(theanswer));
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").show();
+                }
+            });
+            $(".ans-G").click(function(){
+                $(this).parent().parent().parent().children(":first-child").children(".mychoice").text("G");
+                var theanswer = $(this).parent().parent().children("span:last-child").children(":first-child").val()
+                if (theanswer == '7') $(this).parent().parent().parent().children(":first-child").children(".yes").show();
+                else {
+                    $(this).parent().parent().parent().children(":first-child").children(".no").show();
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").text(ntoa(theanswer));
+                    $(this).parent().parent().parent().children(":first-child").children(".fillme").show();
+                }
             });
             $("#nextquestion").click(function(){
                 var digis = $("#button1").text().split('/');
@@ -49,9 +249,6 @@
                 $("#questionbottom").text(digi);
                 if (digi >= {{l_t}}) $(this).hide();
                 if (digi > 1) $("#lastquestion").show();
-                //var n = $("#button1");
-                //$(n.text).css("background-color","yellow");
-                //n.text = 2;
             });
             $("#lastquestion").click(function(){
                 var digis = $("#button1").text().split('/');
@@ -65,11 +262,6 @@
                 $("#questionbottom").text(digi);
                 if (digi <= 1) $(this).hide();
                 if (digi < {{l_t}}) $("#nextquestion").show();
-
-                //var n = $("#button1");
-                //$(n.text).css("background-color","yellow");
-                //n.text = 2;
             });
         </script>
 {% endblock %}
-
